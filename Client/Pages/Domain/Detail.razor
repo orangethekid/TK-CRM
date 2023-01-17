@@ -1,0 +1,42 @@
+﻿@page "/Domain/detail/{domainId:int}"
+
+
+<h3>รายละเอียดโดเมน</h3>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-12 text-left">
+            <a class="btn btn-info" href="Order/detail/@domain.OrderId"><span class="oi oi-briefcase"> ใบสั่งซื้อ</span></a>
+            <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                <a class="btn btn-info" href="Domain/Edit/@domain.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+                <button class="btn btn-danger" @onclick="@(() => Delete( domain.Id ))"><span class="oi oi-x"> ลบ</span></button>
+            </AuthorizeView>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1">
+                    <li class="m-1">
+                        ลูกค้าเป็นผู้จดทะเบียนเอง :
+                        @if (domain.IsOwn)
+                        {<span class="oi oi-x"></span> }
+                        else
+                        { <span class="oi oi-check"></span>}
+                    </li>
+                    <li class="m-1"><span> วันที่จดทะเบียน : @domain.CreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" ); </span></li>
+                    <li class="m-1"><span> วันที่หมดอายุ : @domain.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" );</span></li>
+                    <li class="m-1">
+                        จดทะเบียน SSL :
+                        @if (domain.IsSSL)
+                        {<span class="oi oi-check"></span> }
+                        else
+                        { <span class="oi oi-x"></span>}
+                    </li>
+                    <li class="m-1"><span> วันที่จดทะเบียน SSL : @domain.SSLCreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" ); </span></li>
+                    <li class="m-1"><span> วันที่หมดอายุ SSL : @domain.SSLEndDate.ToString( "MM/dd/yyyy - HH:mm:ss" ); </span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿<div class="form-group row">
+    <label class="col-lg-3 col-form-label form-control-label">
+        ประเภทการตลาด
+    </label>
+    <div class="col-lg-9">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                   checked="@orderMarketing.Facebook" value="facebook" @onchange="OnChange">
+            <label class="form-check-label" for="inlineRadio1"> Facebook Ads </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                   checked="@orderMarketing.LineAdsPlatform" value="line" @onchange="OnChange">
+            <label class="form-check-label" for="inlineRadio1"> Line Ads Platform </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                   checked="@orderMarketing.GoogleShop" value="google" @onchange="OnChange">
+            <label class="form-check-label" for="inlineRadio1"> Google Shop </label>
+        </div>
+    </div>
+</div>
+<br />
+<div class="form-group row">
+    <label class="col-lg-3 col-form-label form-control-label">
+        รายละเอียด การตลาด
+    </label>
+    <div class="col-lg-9">
+        <textarea @bind="@orderMarketing.Detail" class="form-control w-50" rows="4" />
+    </div>
+</div>

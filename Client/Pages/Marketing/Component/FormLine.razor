@@ -1,0 +1,86 @@
+﻿<EditForm Model="@line" OnInvalidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <form role="form">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Line Official Account
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@line.LineOA" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    แคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@line.Campaign" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Target URL
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@line.TargetUrl" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่เริ่มแคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@line.StartDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่สิ้นสุดแคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@line.EndDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    งบประมาณ
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <input type="number" @bind-value="@line.Budget" class="form-control" />
+                        <span class="input-group-text">THB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วัตถุประสงค์
+                </label>
+                <div class="col-lg-9">
+                    <select class="form-control w-auto" id="selectObjective" @bind="@line.Objective">
+                        <option value="" selected>กรุณาเลือกวัตถุประสงค์</option>
+                        @foreach (string val in line._objective)
+                        {
+                            <option value="@val">@val</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Sale Page (ถ้ามี)
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@line.SalePage" class="form-control w-50" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

@@ -1,0 +1,5 @@
+﻿@page "/Order/create/{customerID:int}"
+@using TakraonlineCRM.Client.Pages.Order.Components 
+
+<h3>เพิ่มใบสั่งซื้อ</h3>
+<FormOrder ButtonText="สร้าง" order="@order" OnValidSubmit="@CreateOrder"  />

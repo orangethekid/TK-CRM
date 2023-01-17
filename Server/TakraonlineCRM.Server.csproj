@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>2b358ffe-45d8-4d74-812a-807aa590c26b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Implementation\**" />
+    <Content Remove="Implementation\**" />
+    <EmbeddedResource Remove="Implementation\**" />
+    <None Remove="Implementation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20201220125124_Identity.cs" />
+    <Compile Remove="Migrations\20201220125124_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20201220131505_UpdateRelate.cs" />
+    <Compile Remove="Migrations\20201220131505_UpdateRelate.Designer.cs" />
+    <Compile Remove="Migrations\20201220131610_UpdateRelate.cs" />
+    <Compile Remove="Migrations\20201220131610_UpdateRelate.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" ExcludeAssets="All" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\TakraonlineCRM.Client.csproj" />
+    <ProjectReference Include="..\Shared\TakraonlineCRM.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="LoggerService\internal_logs\" />
+    <Folder Include="LoggerService\logs\" />
+    <Folder Include="StaticFiles\Images\" />
+    <Folder Include="StaticFiles\SQLupdate\" />
+    <Folder Include="StaticFiles\WebSiteEstimate\" />
+    <Folder Include="StaticFiles\WebSiteNewDesing\" />
+    <Folder Include="StaticFiles\TransferReceipt\" />
+  </ItemGroup>
+
+
+</Project>

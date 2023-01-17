@@ -1,0 +1,100 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">TakraOnline CRM</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <AuthorizeView>
+            <Authorized>
+                <AuthorizeView Context="MenuUser" Roles="Admin, SubAdmin">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="user">
+                            <span class="oi oi-person" aria-hidden="true"></span> สมาชิก
+                        </NavLink>
+                    </li>
+                </AuthorizeView>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="customer">
+                        <span class="oi oi-people" aria-hidden="true"></span> ลูกค้า
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="order">
+                        <span class="oi oi-document" aria-hidden="true"></span> ใบสั่งซื้อ
+                    </NavLink>
+                </li>
+                <AuthorizeView Context="MenuUser" Roles="Admin, SubAdmin, CustomerService">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="web">
+                            <span class="oi oi-browser" aria-hidden="true"></span> เว็บไซต์
+                        </NavLink>
+                    </li>
+                </AuthorizeView>
+                <AuthorizeView Context="MenuUser" Roles="Admin, SubAdmin, CustomerService">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="marketing">
+                            <span class="oi oi-bullhorn" aria-hidden="true"></span> แคมเปญลูกค้า
+                        </NavLink>
+                    </li>
+                </AuthorizeView>
+                <AuthorizeView Context="MenuUser" Roles="Admin, SubAdmin, CustomerService">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="logs">
+                            <span class="oi oi-calendar" aria-hidden="true"></span> ประวัติการใช้งาน
+                        </NavLink>
+                    </li>
+                </AuthorizeView>
+                <AuthorizeView Context="MenuUser" Roles="Admin, SubAdmin, CustomerService">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" @onclick="()=>subMenuClicked = true">
+                            <span class="oi oi-wrench" aria-hidden="true"></span> ตั้งค่า
+                        </NavLink>
+                        @if (expandSettingSubMenu)
+                        {
+                            <ul class="nav flex-column">
+                                <li class="nav-item px-3">
+                                    <NavLink class="nav-link" href="course">
+                                        <span class="oi oi-book" aria-hidden="true"></span> คอร์สเรียน
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        }
+                    </li>
+                </AuthorizeView>
+            </Authorized>
+        </AuthorizeView>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool subMenuClicked;
+    private bool expandSettingSubMenu;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        if (subMenuClicked)
+        {
+            if (expandSettingSubMenu)
+                expandSettingSubMenu = false;
+            else
+                expandSettingSubMenu = true;
+
+            subMenuClicked = false;
+        }
+        else
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
+    }
+}

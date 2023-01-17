@@ -1,0 +1,189 @@
+﻿@page "/Customer/detail/{customerId:int}"
+
+<h2>รายละเอียดลูกค้า</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-6 text-left">
+            <h3 class="oi oi-people">
+                <span class="pl-1">@customer.FirstName  @customer.LastName</span>
+            </h3>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-info" href="Customer/Edit/@customer.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+            <button class="btn btn-danger" @onclick="@(() => Delete(customer.Id))" disabled="@DisableDeleteBtn()"><span class="oi oi-x"> ลบ</span></button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-8 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1 border-bottom">
+                    <li class="m-sm-1"><span> ธรุกิจ : @customer.BusinessType</span></li>
+                    <li class="m-sm-1"><span> ชื่อบริษัท : @customer.BusinessName </span></li>
+                    <li class="m-sm-1"><span> ผู้ประสานงาน : @customer.BusinessContact </span></li>
+                    <li class="m-1"><span> รายละเอียด : @customer.CustomerDetail </span></li>
+                    <li class="m-1"><span class="text-danger"> หมายเหตุ : @customer.CustomerNote </span></li>
+                </ul>
+                <br />
+                <ul class="text-left m-1 border-bottom">
+                    <li class="m-sm-1"><span> เบอร์โทรศัพท์ : @customer.Phone</span></li>
+                    <li class="m-sm-1"><span> อีเมล : @customer.Email </span></li>
+                    <li class="m-sm-1"><span> Facebook : @customer.Facebok </span></li>
+                    <li class="m-sm-1"><span> Line ID : @customer.Line </span></li>
+                </ul>
+                <br />
+                <ul class="text-left m-1">
+                    <li class="m-sm-1"><span> ที่อยู่ : @customer.Address1 </span></li>
+                    <li class="m-sm-1"><span> ที่อยู่ (เพิ่มเติม) : @customer.Address2 </span></li>
+                    <li class="m-sm-1"><span> ตำบล/แขวง : @customer.District </span></li>
+                    <li class="m-sm-1"><span> อำเภอ/เขต : @customer.City </span></li>
+                    <li class="m-sm-1"><span> จังหวัด : @customer.State </span></li>
+                    <li class="m-sm-1"><span> รหัสไปรษณีย์ : @customer.Zip </span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-4 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1 border-bottom">
+                    <li class="m-sm-1"><span> ผู้สร้าง : @customer.GetCreatorName()</span></li>
+                    <li class="m-sm-1"><span> วันที่สร้าง : @customer.CreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </span></li>
+                </ul>
+                <ul class="text-left m-1">
+                    <li class="m-sm-1"><span> ผู้รับผิดชอบ : @customer.GetSaleName()</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<br>
+<h2>ใบสั่งซื้อ</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a class="btn btn-success" href="Order/create/@customerId"><i class="oi oi-plus"></i> เพิ่มใบสั่งซื้อ</a>
+        </div>
+    </div>
+    <br />
+    <div class="row w-100">
+        @if (orderList == null)
+        {
+            <text>Loading...</text>
+        }
+        else if (orderList.Count == 0)
+        {
+            <text>ไม่พบใบสั่งซื้อในระบบ</text>
+        }
+        else
+        {
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="col-auto">หมายเลขใบสั่งซื้อ</th>
+                        <th class="col-auto">ประเภท</th>
+                        <th class="col-auto">วันที่ทำออเดอร์</th>
+                        <th class="col-auto">วันที่สร้าง</th>
+                        <th class="col-auto">ยอดรวม</th>
+                        <th class="col-auto">ประเภทการตลาด</th>
+                        <th class="col-auto text-right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Order order in orderList)
+                    {
+                        <tr>
+                            <td>@order.TakraOrderId</td>
+                            <td>@order.OrderType</td>
+                            <td>@order.OrderDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                            <td>@order.CreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                            <td>@order.Financial.SubTotal.ToString( "N0" )</td>
+                            @if (order.OrderType.ToLower() == "marketing")
+                            {
+                                @if (order.Marketing.Facebook)
+                                {
+                                    <td>Facebook Ads</td>
+                                }
+                                else if (order.Marketing.LineAdsPlatform)
+                                {
+                                    <td>Line Ads Platform</td>
+                                }
+                                else if (order.Marketing.GoogleShop)
+                                {
+                                    <td>Google Shop</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>
+                                <a class="btn btn-info" href="Order/detail/@order.Id"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                                <button class="btn btn-danger" @onclick="@(() => Delete(order.Id))" disabled="@DisableDeleteBtn()"><span class="oi oi-x"> ลบ</span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<div class="clearfix"></div>
+<br>
+<h2>เว็บไซต์</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a class="btn btn-success" href="Web/create/@customerId"><i class="oi oi-plus"></i> เพิ่มเว็บไซต์</a>
+        </div>
+    </div>
+    <br />
+    <div class="row w-100">
+        @if (webList == null)
+        {
+            <text>Loading...</text>
+        }
+        else if (webList.Count == 0)
+        {
+            <text>ไม่พบเว็บไซต์</text>
+        }
+        else
+        {
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ชื่อเว็บไซต์</th>
+                        <th>Url</th>
+                        <th>จำนวนสินค้าสูงสุด</th>
+                        <th>เวอร์ชั่น</th>
+                        <th>วันที่สร้าง</th>
+                        <th>วันหมดอายุ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (WebSite website in webList)
+                    {
+                        <tr>
+                            <td>@website.Name</td>
+                            <td><NavLink href="@website.Url">@website.Url</NavLink></td>
+                            <td>@website.MaximumProduct</td>
+                            <td>@website.Version</td>
+                            <td>@website.CreateDate.ToString( "MM/dd/yyyy" )</td>
+                            <td>@website.EndDate.ToString( "MM/dd/yyy" )</td>
+                            <td>
+                                <a class="btn btn-info" href="Web/detail/@website.Id"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                                <button class="btn btn-danger" @onclick="@(() => DeleteWebSite(website.Id,website.Name))"><span class="oi oi-x"> ลบ</span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<br>

@@ -1,0 +1,75 @@
+﻿<EditForm Model="@domain" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ข้อมูลโดเมน</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    URL : <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@domain.Name" class="form-control w-50" />
+                    <ValidationMessage For="@(() => domain.Name)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-9 form-check">
+                    <InputCheckbox @bind-Value="@domain.IsOwn" />
+                    <label class="form-check-label">
+                        ลูกค้าเป็นผู้จดทะเบียนเอง
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่เปิดเว็บไซต์
+                </label>
+                <div class="col-lg-3">
+                    <input type="datetime-local" @bind-value="@domain.CreateDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่หมดอายุ
+                </label>
+                <div class="col-lg-3">
+                    <input type="datetime-local" @bind-value="@domain.EndDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-9 form-check">
+                    <InputCheckbox @bind-Value="@domain.IsSSL" />
+                    <label class="form-check-label">
+                        จดทะเบียน SSL
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่จด SSL
+                </label>
+                <div class="col-lg-3">
+                    <input type="datetime-local" @bind-value="@domain.SSLCreateDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่หมดอายุ SSL
+                </label>
+                <div class="col-lg-3">
+                    <input type="datetime-local" @bind-value="@domain.SSLEndDate" class="form-control w-auto" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

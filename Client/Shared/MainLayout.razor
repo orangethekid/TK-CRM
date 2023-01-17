@@ -1,0 +1,26 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+<div class="main">
+    <div class="top-row" style="z-index:999">
+        <UserMenu />
+    </div>
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@functions
+{ 
+    [CascadingParameter] Task<AuthenticationState> AuthenticationState { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+        {
+            navigationManager.NavigateTo( "/index" );
+        }
+    }
+} 

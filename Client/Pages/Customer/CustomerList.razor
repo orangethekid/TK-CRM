@@ -1,0 +1,50 @@
+﻿@page "/Customer"
+
+
+<h3>รายชื่อลูกค้า</h3>
+<div class="d-flex">
+    <div class="text-right">
+        <a class="btn btn-success" href="Customer/create"><i class="oi oi-plus"></i> เพิ่มลูกค้า</a>
+    </div>
+</div>
+<br>
+<SearchHelper search="@search" searchOptions="@searchField" OnSearch="@Search" />
+@if (Customers == null)
+{
+<text>Loading...</text> }
+else if (Customers.Count == 0)
+{
+<text>ไม่พบข้อมูลลูกค้า</text> }
+else
+{
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th class="col-auto">ชื่อ</th>
+            <th class="col-auto">เบอร์โทรศัพท์</th>
+            <th class="col-auto">อีเมล</th>
+            <th class="col-auto">วันที่สร้าง</th>
+            <th class="col-auto">ผู้สร้าง</th>
+            <th class="col-auto">ผู้รับผิดชอบ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Customer customer in Customers)
+        {
+<tr>
+    <td>@customer.FirstName @customer.LastName </td>
+    <td>@customer.Phone</td>
+    <td>@customer.Email</td>
+    <td>@customer.CreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+    <td>@customer.GetCreatorName()</td>
+    <td>@customer.GetSaleName()</td>
+    <td>
+        <a class="btn btn-info" href="@HrefURL( "CustomerDetail", customer )" style="@SetPointerEvent(customer)"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+        <a class="btn btn-primary" href="@HrefURL( "CreateOrder", customer )" style="@SetPointerEvent(customer)"><span class="oi oi-document"> เพิ่มใบสั่งซื้อ</span></a>
+        <button class="btn btn-danger" @onclick="@(() => Delete( customer.Id ))" disabled="@DisableDeleteBtn()"><span class="oi oi-x"> ลบ</span></button>
+    </td>
+</tr>}
+    </tbody>
+</table>}
+<Pagination TotalPagesQuantity="totalPagesQuantity" CurrentPage="currentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>

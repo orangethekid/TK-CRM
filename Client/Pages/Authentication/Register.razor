@@ -1,0 +1,59 @@
+﻿@layout AuthLayout
+
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-3 m-auto">
+            <h1 class="h2 font-weight-normal login-title">
+                สมัครสมาชิก
+            </h1>
+            <div>
+                <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="registerRequest">
+                    <DataAnnotationsValidator />
+                    <div class="form-row py-1">
+                        ชื่อผู้ใช้
+                        <InputText id="inputDisplayname" class="form-control" placeholder="ชื่อผู้ใช้" autofocus @bind-Value="@registerRequest.DisplayName" />
+                        <ValidationMessage For="@(() => registerRequest.DisplayName)" />
+                    </div>
+                    <div class="form-row py-1">
+                        บัญชีผู้ใช้
+                        <InputText id="inputUsername" class="form-control" placeholder="บัญชีผู้ใช้" autofocus @bind-Value="@registerRequest.UserName" />
+                        <ValidationMessage For="@(() => registerRequest.UserName)" />
+                    </div>
+                    <div class="form-row py-1">
+                        รหัสผ่าน
+                        <InputText type="password" id="inputPassword" class="form-control" placeholder="รหัสผ่าน" @bind-Value="@registerRequest.Password" />
+                        <ValidationMessage For="@(() => registerRequest.Password)" />
+                    </div>
+                    <div class="form-row py-1">
+                        ยืนยันรหัสผ่าน
+                        <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="ยืนยันรหัสผ่าน" @bind-Value="@registerRequest.PasswordConfirm" />
+                        <ValidationMessage For="@(() => registerRequest.PasswordConfirm)" />
+                    </div>
+                    <div class="form-row py-1">
+                        อีเมล
+                        <InputText id="email" class="form-control" placeholder="อีเมล" @bind-Value="@registerRequest.Email" />
+                        <ValidationMessage For="@(() => registerRequest.Email)" />
+                    </div>
+                    <div class="form-row py-2">
+                        ตำแหน่ง
+                        <div class="d-flex align-items-center">
+                            <InputSelect @bind-Value="@registerRequest.Role">
+                                <option value="subadmin"> Admin (sub) </option>
+                                <option value="customerservice"> Customer Service </option>
+                                <option value="sale"> Sale </option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => registerRequest.Role)" />
+                        </div>
+                    </div>
+                    <br />
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
+                    <label class="text-danger">@error</label>
+                    <NavLink href="login">
+                        <h6 class="font-weight-normal text-center">เป็นสมาชิกอยู่แล้ว ? เข้าสู่ระบบ</h6>
+                    </NavLink>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>

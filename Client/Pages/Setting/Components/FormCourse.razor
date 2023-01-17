@@ -1,0 +1,33 @@
+﻿<EditForm Model="@Course" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ข้อมูลคอร์สเรียน</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ชื่อคอร์สเรียน : <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@Course.CourseName" class="form-control w-50" />
+                    <ValidationMessage For="@(() => Course.CourseName)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รายละเอียดคอร์สเรียน :
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@Course.CourseDetail" class="form-control w-50" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

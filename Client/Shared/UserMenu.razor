@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+@inject CustomStateProvider authStateProvider
+
+
+<div class="d-flex">
+    <div class="text-right">
+        <AuthorizeView>
+            <Authorized>
+                <span>สวัสดี ผู้ใช้ @context.User.Identity.Name</span>
+                <button type="button" class="btn btn-link mr-md-auto" @onclick="@LogoutClick">Logout</button>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="btn btn-link mr-md-auto" href="register">
+                    <span class="font-weight-normal">Register</span>
+                </NavLink>
+                <NavLink class="btn btn-link mr-md-auto" href="login">
+                    <span class="font-weight-normal">login</span>
+                </NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@functions
+{ 
+    [CascadingParameter] Task<AuthenticationState> AuthenticationState { get; set; }
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+
+    //}
+
+    async Task LogoutClick()
+    {
+        await authStateProvider.Logout();
+        navigationManager.NavigateTo( "/index" );
+    }
+}
+
+@code { CurrentUser user = new CurrentUser(); }

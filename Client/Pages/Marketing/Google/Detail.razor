@@ -1,0 +1,37 @@
+﻿@page "/Google/detail/{orderId:int}"
+
+<h2>รายละเอียดการตลาด</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-6 text-left">
+            <h3 class="oi oi-document">
+                <span class="pl-1"> Line Ads Platform </span>
+            </h3>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-info" href="Order/detail/@orderId"><span class="oi oi-briefcase">ใ บสั่งซื้อ</span></a>
+            <button class="btn btn-danger" @onclick="@(() => Delete(google.Id))"><span class="oi oi-x"> ลบ</span></button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1 border-bottom">
+                    <li class="m-1"> เว็บไซต์ : @GetWebsiteName( google.Id ) </li>
+                    <li class="m-1"> แคมเปญ : @google.Campaign </li>
+                    <li class="m-1"> วันเริ่มต้น : @google.StartDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </li>
+                    <li class="m-1"> วันสิ้นสุด : @google.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </li>
+                    <li class="m-1"> งบประมาณ : @google.Budget.ToString( "N0" ) </li>
+                    <li class="m-1"> วันถุประสงค์ : @google.Objective </li>
+                </ul>
+                <br />
+                <ul class="text-left m-1">
+                    <li class="m-1"> MerchantID : @google.MerchantID </li>
+                    <li class="m-1"> MerchantUserName : @google.MerchantUserName </li>
+                    <li class="m-1"> MerchantPassword : @google.MerchantPassword </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

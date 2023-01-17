@@ -1,0 +1,196 @@
+﻿<EditForm Model="@order" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ข้อมูลใบสั่งซื้อ</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    หมายเลขใบสั่งซื้อ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@order.TakraOrderId" class="form-control w-50" />
+                    <ValidationMessage For="@(() => order.TakraOrderId)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่ทำออเดอร์
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@order.OrderDate" class="form-control w-auto" />
+                    <ValidationMessage For="@(() => order.OrderDate)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่สร้าง
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@order.CreateDate" class="form-control w-auto" />
+                    <ValidationMessage For="@(() => order.CreateDate)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รายละเอียด
+                </label>
+                <div class="col-lg-9">
+                    <textarea @bind="@order.Detail" class="form-control w-50" rows="4" placeholder="ลูกค้าค่อนข้างเร่ง ขอภายใน 5 วัน" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    สถานะออเดอร์
+                </label>
+                <div class="col-lg-9">
+                    <select class="form-control w-auto" id="selectStatus" @bind="order.OrderStatus">
+                        <option value="สร้างออเดอร์"> สร้างออเดอร์ </option>
+                        <option value="กำลังดำเนินการ"> กำลังดำเนินการ </option>
+                        <option value="ดำเนินการแล้ว"> ดำเนินการแล้ว </option>
+                        <option value="ยกเลิก"> ยกเลิก </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รายละเอียดสถานะ
+                </label>
+                <div class="col-lg-9">
+                    <textarea @bind="order.OrderStatusDetail" class="form-control w-50" rows="2" placeholder="มอบหมายให้ ทีมงานแล้ว ภายในเวลา 2-3 วัน" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ประเภทบริการ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <select class="form-control w-auto" id="selectType" @bind="order.OrderType">
+                        <option valuie="" selected> กรุณาเลือก </option>
+                        <option value="website"> เว็บไซต์ </option>
+                        <option value="marketing"> การตลาด </option>
+                        <option value="course"> คอร์สเรียน </option>
+                        <option value="graphic"> บริการออกแบบ </option>
+                    </select>
+                    <ValidationMessage For="@(()=> order.OrderType )" />
+                </div>
+            </div>
+            @if (order.OrderType == "website")
+            {
+                <FormWebSite orderWebSite="@order.Website" />
+            }
+            else if (order.OrderType == "marketing")
+            {
+                <FormMarketing orderMarketing="@order.Marketing" />
+            }
+            else if (order.OrderType == "graphic")
+            {
+                <FormGraphic orderGraphic="@order.Graphic" />
+            }
+            else if (order.OrderType == "course")
+            {
+                <FormCourse OrderCourse="@order.Course" />
+            }
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>อื่นๆ</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    หมายเหตุ
+                </label>
+                <div class="col-lg-9">
+                    <textarea @bind="@order.Note" class="form-control w-50" rows="2" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>การชำระเงิน</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ราคา สินค้า/บริการ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <input type="number" value="@order.Financial.Price" class="form-control" @onchange="PriceChange" id="PriceText" />
+                        <span class="input-group-text">THB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ส่วนลด
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <span class="input-group-text">-</span>
+                        <input type="number" value="@order.Financial.Discount" class="form-control" @onchange="DiscountChange" id="DiscountText" />
+                        <span class="input-group-text">THB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ภาษี
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <input type="number" value="@order.Financial.Vat" class="form-control" @onchange="VatChange" id="VatText" />
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รวม
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <input type="number" @bind-value="@Subtotal" class="form-control" disabled />
+                        <span class="input-group-text">THB</span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รายละเอียดการชำระเงิน
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@order.TransferDetail" class="form-control w-50" placeholder="ชำระเงินผ่านบัญชีกสิกร" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่ชำระเงิน
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@order.TransferDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    หลักฐานการชำระเงิน
+                </label>
+                <div class="col-lg-9">
+                    <UploadTransferReceipt OnChange="AssignImageUrl" ImgUrl="@order.TransferReceipt" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

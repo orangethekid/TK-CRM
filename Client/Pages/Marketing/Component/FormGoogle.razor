@@ -1,0 +1,96 @@
+﻿
+
+<EditForm Model="@google" OnInvalidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <form role="form">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    เว็บไซต์
+                </label>
+                <div class="col-lg-9">
+                    <select class="form-control w-auto" id="selectWeb" @bind="@google.WebSiteId">
+                        <option value="0"> กรุณาเลือกเว็บไซต์ </option>
+                        @foreach (WebSite w in webs)
+                        {
+                            <option value="@w.Id"> @w.Name </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    แคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@google.Campaign" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่เริ่มแคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@google.StartDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่สิ้นสุดแคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@google.EndDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    งบประมาณ
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <input type="number" @bind-value="@google.Budget" class="form-control" />
+                        <span class="input-group-text">THB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วัตถุประสงค์
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@google.Objective" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Googler Merchant ID
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@google.MerchantID" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Googler Merchant Username
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@google.MerchantUserName" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Googler Merchant Password
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@google.MerchantPassword" class="form-control w-50" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

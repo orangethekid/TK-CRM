@@ -1,0 +1,200 @@
+﻿@page "/Web/detail/{websiteId:int}"
+
+<h2>รายละเอียดเว็บไซต์</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-6 text-left">
+            <h3 class="oi oi-document">
+                <span class="pl-1">เว็บไซต์ : @website.Name </span>
+            </h3>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-info" href="Customer/Detail/@website.CustomerId"><span class="oi oi-people"> ลูกค้า</span></a>
+            <a class="btn btn-info" href="Order/detail/@website.OrderId"><span class="oi oi-briefcase"> ใบสั่งซื้อ</span></a>
+            <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                <a class="btn btn-info" href="Web/Edit/@website.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+                <button class="btn btn-danger" @onclick="@(() => Delete(website.Id))"><span class="oi oi-x"> ลบ</span></button>
+            </AuthorizeView>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-8 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1 border-bottom">
+                    <li class="m-1">
+                        <span>
+                            เว็บไซต์ :
+                            @if (website.Url == null || website.Domains.Count == 0)
+                            {
+                                var tempUrl = "http://" + @website.Name + ".takraonline.com";
+                                <a target="_blank" href="@tempUrl">@website.Name</a>
+                            }
+                            else
+                            {
+                                var domainurl = (@website.Domains[0].IsSSL ? "https://" : "http://");
+                                domainurl += website.Domains[0].Name;
+                                <a target="_blank" href="@domainurl">@website.Name</a>
+                            }
+                        </span>
+                    </li>
+                    <li class="m-1"><span> package : @website.Package </span></li>
+                    <li class="m-1"><span> รายละเอียด : @website.Detail </span></li>
+                </ul>
+                <br>
+                <ul class="text-left m-1">
+                    <li class="m-1">
+                        @if (website.IsFree)
+                        {<span> ประเภทเว็บไซต์ :ร้านค้าฟรี</span> }
+                        else if (website.IsCompanyProfile)
+                        {<span> ประเภทเว็บไซต์ : เว็บไซต์สำหรับองค์กร</span> }
+                        else if (website.IsSalePlage)
+                        {<span> ประเภทเว็บไซต์ : เซลเพจ</span> }
+                        else
+                        {<span> ประเภทเว็บไซต์ : ร้านค้าชั้นธุรกิจ</span>}
+                    </li>
+                    @if (website.IsSalePlage)
+                    {
+                        <li class="m-1"><span> จำนวน เซลเพจ สูงสูด : @website.MaximumProduct </span></li>
+                    }
+                    else if (!website.IsSalePlage && !website.IsFree && !website.IsCompanyProfile)
+                    {
+                        <li class="m-1"><span> จำนวน สินค้า สูงสูด : @website.MaximumProduct </span></li>
+                    }
+                    <li class="m-1"><span> version : @website.Version </span></li>
+                    @if (website.IsInstallTemplate)
+                    {
+                        <li class="m-1"><span> รูปแบบร้านค้า : @website.TemplateName </span></li>
+                    }
+                </ul>
+                <ul class="text-left m-1">
+                    <li class="m-1">
+                        <div class="m-1">
+                            <span> ติดตั้งส่วนเสริม : </span>
+                        </div>
+                        <div class="form-inline">
+                            <div class="col-auto">
+                                <span>Facebook Shop : </span>
+                                @if (website.IsFacebookShop)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </div>
+                            <div class="col-auto">
+                                <span>Google Shop : </span>
+                                @if (website.IsGoogleMarket)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </div>
+                            <div class="col-auto">
+                                <span>Lazada : </span>
+                                @if (website.IsLazada)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </div>
+                            <div class="col-auto">
+                                <span>Shopee : </span>
+                                @if (website.IsShopee)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="text-left m-1">
+                    <li class="m-1">
+                        <div class="m-1">
+                            <span> บริการอื่นๆ : </span>
+                        </div>
+                        <div class="form-inline">
+                            <div class="col-auto">
+                                <span>ออกแบบใหม่ : </span>
+                                @if (website.IsNewDesign)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </div>
+                            <div class="col-auto">
+                                <span>แก้ไขโปรแกรม : </span>
+                                @if (website.IsProgramEdit)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-4 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1">
+                    <li class="m-sm-1"><span> วันที่สร้าง : @website.CreateDate.ToString( "MM/dd/yyyy-HH:mm:ss" )</span></li>
+                    <li class="m-sm-1"><span> วันที่หมดอายุ : @website.EndDate.ToString( "MM/dd/yyyy-HH:mm:ss" )</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<h2>Domain</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a class="btn btn-success" href="Domain/create/@website.OrderId/@website.Id"><i class="oi oi-plus"></i> เพิ่มโดเมน</a>
+        </div>
+    </div>
+    <br />
+    <div class="row w-100">
+        @if (website.Domains == null || website.Domains.Count == 0)
+        {
+            <text>ไม่พบข้อมูลโดเมน</text>
+        }
+        else
+        {
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="col-auto">Url</th>
+                        <th class="col-auto">ลูกค้าจดทะเบียนเอง</th>
+                        <th class="col-auto">SSL</th>
+                        <th class="col-auto">วันที่จดทะเบียน</th>
+                        <th class="col-auto">วันที่หมดอายุ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Domain domain in website.Domains.OrderByDescending( d => d.Id ))
+                    {
+                        <tr>
+                            <td> @domain.Name </td>
+                            <td>
+                                @if (domain.IsOwn)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </td>
+                            <td>
+                                @if (domain.IsSSL)
+                                {<span class="oi oi-check"></span> }
+                                else
+                                { <span class="oi oi-x"></span>}
+                            </td>
+                            <td>@domain.CreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                            <td>@domain.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                            <td>
+                                <a class="btn btn-info" href="Domain/edit/@domain.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+                                <button class="btn btn-danger" @onclick="@(() => DeleteDomain(domain.Id,domain.Name))"><span class="oi oi-x"> ลบ</span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<br />

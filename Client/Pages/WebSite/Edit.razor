@@ -1,0 +1,44 @@
+﻿@page "/Web/edit/{websiteId:int}"
+@inject NavigationManager uriHelper
+@inject IWebSiteRepository repository
+@inject IJSRuntime js
+@inject IAuthService auth
+@inject ILogRepository log
+@using TakraonlineCRM.Client.Services;
+
+<h3>แก้ไขเว็บไซต์</h3>
+<Form ButtonText="บันทึก" website="@website" OnValidSubmit="@EditWebsite" />
+
+@code
+{ 
+    [Parameter] public int websiteId { get; set; }
+    WebSite website = new WebSite();
+    WebSite _website = new WebSite();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            website = await repository.GetOne( websiteId );
+            _website = website;
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine( error );
+        }
+    }
+
+    async Task EditWebsite()
+    {
+        try
+        {
+            await repository.EditWebSite( website );
+            await js.InvokeVoidAsync( "alert", $"Updated Successfully!" );
+            uriHelper.NavigateTo( "Web/detail/" + websiteId );
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine( error );
+        }
+    }
+}

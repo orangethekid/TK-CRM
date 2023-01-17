@@ -1,0 +1,79 @@
+﻿@page "/User/Create"
+
+<h3>เพิ่มผู้ใช้</h3>
+<div class="container">
+    <EditForm Model="@userRequest" OnValidSubmit="@CreateUser">
+        <DataAnnotationsValidator />
+        <form role="form">
+            <div class="alert @statusClass">@statusMessage</div>
+            <div class="row mb-2">
+                <h5>ข้อมูลผู้ใช้</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ชื่อผู้ใช้ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@userRequest.DisplayName" class="form-control w-50" />
+                    <ValidationMessage For="@(() => userRequest.DisplayName)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    บัญชีผู้ใช้ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@userRequest.UserName" class="form-control w-50" />
+                    <ValidationMessage For="@(() => userRequest.UserName)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รหัสผ่าน <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText type="password" @bind-Value="@userRequest.Password" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ยืนยันรหัสผ่าน <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText type="password" @bind-Value="@userRequest.PasswordConfirm" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    อีเมล <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@userRequest.Email" class="form-control w-50" />
+                    <ValidationMessage For="@(() => userRequest.Email)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ตำแหน่ง <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputSelect @bind-Value="@userRequest.Role" class="form-control w-50">
+                        <option>-- เลือก Role --</option>
+                        <option value="subadmin"> Admin (sub) </option>
+                        <option value="customerservice"> Customer Service </option>
+                        <option value="sale"> Sale </option>
+                        <option value="programer"> Programer </option>
+                        <option value="graphic"> Graphic </option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => userRequest.Role)" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                เพิ่มผู้ใช้
+            </button>
+        </div>
+    </EditForm>
+</div>

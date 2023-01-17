@@ -1,0 +1,78 @@
+﻿<EditForm Model="@facebook" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        <form role="form">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Facebook Page
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@facebook.FacebookPage" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    แคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@facebook.Campaign" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่เริ่มแคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@facebook.StartDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่สิ้นสุดแคมเปญ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@facebook.EndDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    งบประมาณ
+                </label>
+                <div class="col-lg-9">
+                    <div class="input-group w-25">
+                        <input type="number" @bind-value="@facebook.Budget" class="form-control" />
+                        <span class="input-group-text">THB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วัตถุประสงค์
+                </label>
+                <div class="col-lg-9">
+                    <select class="form-control w-auto" id="selectObjective" @bind="@facebook.Objective">
+                        <option value="" selected>กรุณาเลือกวัตถุประสงค์</option>
+                        @foreach (string val in facebook._objective)
+                        {
+                            <option value="@val">@val</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Sale Page (ถ้ามี)
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@facebook.SalePage" class="form-control w-50" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

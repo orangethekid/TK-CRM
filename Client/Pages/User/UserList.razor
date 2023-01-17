@@ -1,0 +1,43 @@
+﻿@page "/User"
+
+<h3>ผู้ใช้</h3>
+<div class="form-group">
+    <a class="btn btn-success" href="User/create"><i class="oi oi-plus"></i> เพิ่มผู้ใช้</a>
+</div>
+<br>
+@if (Users == null)
+{
+<text>Loading...</text> }
+else if (Users.Count == 0)
+{
+<text>No User Found.</text> }
+else
+{
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ชื่อผู้ใช้</th>
+            <th>บัญชีผู้ใช้</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (User user in Users)
+        {
+        <tr>
+            <td>@user.DisplayName</td>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>@user.Role</td>
+            <td>
+                <a class="btn btn-success" href="User/edit/@user.Id">แก้ไข</a>
+                <button class="btn btn-danger" @onclick="@(() => Delete( new Guid( user.Id ) ))" disabled="@admindisable( user.UserName )"><span class="oi oi-x"> ลบ</span></button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+<Pagination TotalPagesQuantity="totalPagesQuantity" CurrentPage="currentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>

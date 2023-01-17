@@ -1,0 +1,5 @@
+﻿@page "/Course/edit/{courseId:int}"
+@using TakraonlineCRM.Client.Pages.Setting.Components;
+
+<h3>แก้ไขรายละเอียดคอร์สเรียน</h3>
+<FormCourse ButtonText="บันทึก" Course="@course" OnValidSubmit="@EditCourse" />

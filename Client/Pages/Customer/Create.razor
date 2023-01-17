@@ -1,0 +1,7 @@
+﻿@page "/Customer/Create"
+@using TakraonlineCRM.Client.Pages.Customer.Components
+
+<h3>เพิ่มลูกค้า</h3>
+<div class="container">
+    <FormCustomer ButtonText="เพิ่ม" customer="@currentcustomer" OnValidSubmit="@CreateCustomer" />
+</div>

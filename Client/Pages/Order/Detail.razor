@@ -1,0 +1,78 @@
+﻿@page "/Order/detail/{orderId:int}"
+@using TakraonlineCRM.Client.Pages.Order.Components
+
+<h2>รายละเอียดใบสั่งซื้อ</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-6 text-left">
+            <h3 class="oi oi-document">
+                <span class="pl-1">ใบสั้งซื้อ : @order.TakraOrderId </span>
+            </h3>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-info" href="Customer/Detail/@order.CustomerId"><span class="oi oi-people"> ลูกค้า</span></a>
+            <a class="btn btn-info" href="Order/Edit/@order.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+            <button class="btn btn-danger" @onclick="@(() => Delete(order.CustomerId))" disabled="@DisableDeleteBtn()"><span class="oi oi-x"> ลบ</span></button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-8 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1">
+                    <li class="m-1"><span> หมายเลขออเดอร์ : @order.TakraOrderId </span></li>
+                    <li class="m-1"><span> หัวข้อ : @order.Name </span></li>
+                    <li class="m-1"><span> รายละเอียด : @order.Detail </span></li>
+                    <li class="m-1">
+                        <span> สถานะออเดอร์ : </span>
+                        <span class="@SetStatusClass( @order.OrderStatus )"> @order.OrderStatus </span>
+                        <span> @order.OrderStatusDetail </span>
+                    </li>
+                </ul>
+            </div>
+            <br />
+            <div class="list-group-item">
+                <ul class="text-left m-1">
+                    <li class="m-1"><span> โปรโมชั่น : @order.Promotion </span></li>
+                    <li class="m-1"><span> หมายเหตุ : @order.Note </span></li>
+                    <li class="m-1"><span> ราคา : @order.Financial.Price.ToString( "N0" )</span></li>
+                    <li class="m-1"><span> ส่วนลด : @order.Financial.Discount.ToString( "N0" )</span></li>
+                    <li class="m-1"><span> ภาษี : @order.Financial.Vat % </span></li>
+                    <li class="m-1"><span> รวม : @order.Financial.SubTotal.ToString( "N0" )</span></li>
+                    <li class="m-1"><span> รายละเอียดการชำระเงิน : @order.TransferDetail </span></li>
+                    <li class="m-1"><span> เวลา @order.TransferDate.ToString( "MM/dd/yyyy-HH:mm:ss" )</span></li>
+                    <li class="m-1"><a target="_blank" href="@order.TransferReceipt"> หลักฐานการชำระเงิน </a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-4 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1 border-bottom-0">
+                    <li class="m-sm-1"><span> ผู้สร้าง : @order.GetCreatorName()</span></li>
+                    <li class="m-sm-1"><span> วันที่สร้าง : @order.CreateDate.ToString( "MM/dd/yyyy-HH:mm:ss" )</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<br>
+
+@if (order.OrderType != null)
+{
+    @switch (order.OrderType.ToLower())
+    {
+        case "website":
+            <DetailWebSite orderWebSite="order.Website" customerId="order.CustomerId" />
+            break;
+        case "marketing":
+            <DetailMarketing orderMarketing="order.Marketing" />
+            break;
+        case "graphic":
+            <DetailGraphic orderGraphic="order.Graphic" customerId="order.CustomerId" />
+            break;
+        case "course":
+            <DetailCourse orderCourse="order.Course" />
+            break;
+    }
+}

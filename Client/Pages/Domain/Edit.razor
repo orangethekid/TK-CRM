@@ -1,0 +1,5 @@
+﻿@page "/Domain/edit/{domianId:int}"
+@using TakraonlineCRM.Client.Pages.Domain.Componentes
+
+<h3>แก้ไขโดเมน</h3>
+<FormDomain ButtonText="แก้ไข" domain="@domain" OnValidSubmit="@EditDomain" />

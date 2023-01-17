@@ -1,0 +1,35 @@
+﻿@page "/Web/create/{customerID:int}/"
+@page "/Web/create/{customerID:int}/{orderId:int}/"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IWebSiteRepository repository
+
+<h3>เพิ่มเว็บไซต์</h3>
+<Form ButtonText="สร้าง" website="website" OnValidSubmit="@CreateWeb" />
+
+@code
+{
+    [Parameter] public int customerID { get; set; }
+    [Parameter] public int orderId { get; set; }
+    WebSite website = new WebSite();
+
+    async Task CreateWeb()
+    {
+        try
+        {
+            if (orderId != 0)
+            {
+                website = await repository.CreateWebSite( website, customerID, orderId );
+            }
+            else
+            {
+                website = await repository.CreateWebSite( website, customerID );
+            }
+            uriHelper.NavigateTo( "Web/detail/" + website.Id );
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine( error );
+        }
+    }
+}

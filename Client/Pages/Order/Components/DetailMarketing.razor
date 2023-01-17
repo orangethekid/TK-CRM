@@ -1,0 +1,155 @@
+﻿<h2>รายละเอียด ออเดอร์ : การตลาด </h2>
+<div class="container-fluid  mb-2">
+    <div class="form-group">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="@orderMarketing.Facebook" disabled>
+            <label class="form-check-label" for="inlineRadio1"> Facebook Ads </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="@orderMarketing.LineAdsPlatform" disabled>
+            <label class="form-check-label" for="inlineRadio1"> Line Ads Platform </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="@orderMarketing.GoogleShop" disabled>
+            <label class="form-check-label" for="inlineRadio1"> Google Shop </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-8 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1">
+                    <li class="m-1"><span> รายละเอียดการตลาด : @orderMarketing.Detail </span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    @if (orderMarketing.Facebook)
+    {
+        if (facebook.Id == 0)
+        {
+            <div class="row">
+                <div class="col-6 text-left">
+                    <div class="m-1"><span>ไม่พบข้อมูลแคมเปญ Facebook </span></div>
+                </div>
+                <div class="col-6 text-right">
+                    <a class="btn btn-success" href="facebook/Create/@orderMarketing.OrderId"><i class="oi oi-plus"></i>สร้างแคมเปญ</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-auto">Facebook Page</th>
+                        <th class="col-auto">แคมเปญ</th>
+                        <th class="col-auto">วันเริ่มต้น</th>
+                        <th class="col-auto">วันสิ้นสุด</th>
+                        <th class="col-auto"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> @facebook.FacebookPage </td>
+                        <td> @facebook.Campaign </td>
+                        <td> @facebook.StartDate.ToString( " MM/dd/yyyy - HH:mm:ss " ) </td>
+                        <td> @facebook.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </td>
+                        <td>
+                            <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                                <a class="btn btn-info" href="Facebook/detail/@orderMarketing.OrderId"><span class="oi oi-magnifying-glass">รายละเอียด</span></a>
+                                <button class="btn btn-danger" @onclick="@(() => DeleteFacebook(facebook.Id))">ลบ</button>
+                            </AuthorizeView>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+    }
+    else if (orderMarketing.LineAdsPlatform)
+    {
+        if (line.Id == 0)
+        {
+            <div class="row">
+                <div class="col-6 text-left">
+                    <div class="m-1"><span>ไม่พบข้อมูลแคมเปญ Line </span></div>
+                </div>
+                <div class="col-6 text-right">
+                    <a class="btn btn-success" href="Line/Create/@orderMarketing.OrderId"><i class="oi oi-plus"></i>สร้างแคมเปญ</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-auto">Line Official Account</th>
+                        <th class="col-auto">แคมเปญ</th>
+                        <th class="col-auto">วันเริ่มต้น</th>
+                        <th class="col-auto">วันสิ้นสุด</th>
+                        <th class="col-auto"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> @line.LineOA </td>
+                        <td> @line.Campaign </td>
+                        <td> @line.StartDate.ToString( " MM/dd/yyyy - HH:mm:ss " ) </td>
+                        <td> @line.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </td>
+                        <td>
+                            <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                                <a class="btn btn-info" href="Line/detail/@line.OrderID"><span class="oi oi-magnifying-glass">รายละเอียด</span></a>
+                                <button class="btn btn-danger" @onclick="@(() => DeleteFacebook(line.Id))">ลบ</button>
+                            </AuthorizeView>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+    else
+    {
+        if (google.Id == 0)
+        {
+            <div class="row">
+                <div class="col-6 text-left">
+                    <div class="m-1"><span>ไม่พบข้อมูลแคมเปญ Google </span></div>
+                </div>
+                <div class="col-6 text-right">
+                    <a class="btn btn-success" href="Google/Create/@orderMarketing.OrderId"><i class="oi oi-plus"></i>สร้างแคมเปญ</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-auto">เว็บไซต์</th>
+                        <th class="col-auto">แคมเปญ</th>
+                        <th class="col-auto">วันเริ่มต้น</th>
+                        <th class="col-auto">วันสิ้นสุด</th>
+                        <th class="col-auto"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> @GetWebsiteName( google.WebSiteId )</td>
+                        <td> @google.Campaign </td>
+                        <td> @google.StartDate.ToString( " MM/dd/yyyy - HH:mm:ss " ) </td>
+                        <td> @google.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </td>
+                        <td>
+                            <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                                <a class="btn btn-info" href="Google/detail/@google.OrderID"><span class="oi oi-magnifying-glass">รายละเอียด</span></a>
+                                <button class="btn btn-danger" @onclick="@(() => DeleteGoogle(line.Id))">ลบ</button>
+                            </AuthorizeView>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+</div>

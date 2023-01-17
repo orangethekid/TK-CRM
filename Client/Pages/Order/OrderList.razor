@@ -1,0 +1,59 @@
+﻿@page "/Order"
+
+<h3>ใบสั่งซื้อ</h3>
+<divld class="d-flex">
+    <div class="text-right">
+        <a class="btn btn-success" href="Customer"><i class="oi oi-plus"></i> เพิ่มใบสั่งซื้อ</a>
+    </div>
+</divld>
+<br>
+<SearchHelper search="@search" searchOptions="@searchField" OnSearch="@Search" />
+@if (orders == null)
+{
+    <text>Loading...</text> }
+else if (orders.Count == 0)
+{
+    <text>ไม่พบข้อมูลใบสั่งซื้อ</text> }
+else
+{
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th class="col-auto">หมายเลขใบสั่งซื้อ</th>
+                <th class="col-auto">ประเภท</th>
+                <th class="col-auto">วันที่สร้าง</th>
+                <th class="col-auto">ราคา (ไม่รวม vat) </th>
+                <th class="col-auto">สถานะ </th>
+                <th class="col-auto text-right"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Order order in orders)
+            {
+                <tr style="@SetStyleUnRead(order.IsRead)">
+                    <td>@order.TakraOrderId</td>
+                    <td>@order.OrderType</td>
+                    <td>@order.CreateDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>@order.Financial.Price.ToString( "N0" )</td>
+                    <td class="@SetStatusClass( order.OrderStatus )"> @order.OrderStatus @order.OrderStatusDetail </td>
+                    <td>
+                        <a class="btn btn-info" href="Order/detail/@order.Id"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(order.Id))" disabled="@DisableDeleteBtn()"><span class="oi oi-x"> ลบ</span></button>
+                        @if (CanAccess())
+                        {
+                            @if (order.IsRead)
+                            {
+                                <button class="btn btn-outline-success" @onclick="@(() => SetUnRead(order.Id))"><span class="oi oi-circle-x"> ตั้งเป็นยังไม่อ่าน</span></button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-success" @onclick="@(() => SetRead(order.Id))"><span class="oi oi-circle-check"> ตั้งเป็นอ่านแล้ว</span></button>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<Pagination TotalPagesQuantity="totalPagesQuantity" CurrentPage="currentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>

@@ -1,0 +1,35 @@
+﻿@page "/Facebook/detail/{orderId:int}"
+
+<h2>รายละเอียดการตลาด</h2>
+<div class="container-fluid border-bottom">
+    <div class="row">
+        <div class="col-6 text-left">
+            <h3 class="oi oi-document">
+                <span class="pl-1"> Facebook Ads </span>
+            </h3>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-info" href="Order/detail/@orderId"><span class="oi oi-briefcase"> ใบสั่งซื้อ</span></a>
+            <button class="btn btn-danger" @onclick="@(() => Delete(facebook.Id))"><span class="oi oi-x"> ลบ</span></button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1 border-bottom">
+                    <li class="m-1"> Facebook Page : @facebook.FacebookPage </li>
+                    <li class="m-1"> แคมเปญ : @facebook.Campaign </li>
+                    <li class="m-1"> วันเริ่มต้น : @facebook.StartDate.ToString( " MM/dd/yyyy - HH:mm:ss " ) </li>
+                    <li class="m-1"> วันสิ้นสุด : @facebook.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" ) </li>
+                    <li class="m-1"> งบประมาณ : @facebook.Budget.ToString( "N0" ) </li>
+                    <li class="m-1"> วันถุประสงค์ : @facebook.Objective </li>
+                </ul>
+                <br />
+                <ul class="text-left m-1">
+                    <li class="m-1"> SalePage : @facebook.SalePage </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

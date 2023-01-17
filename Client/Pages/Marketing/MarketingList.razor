@@ -1,0 +1,125 @@
+﻿@page "/Marketing"
+
+<div class="border-bottom pb-1">
+    <h3>บริการการตลาด</h3>
+</div>
+<br />
+<h3>Facebook Ads</h3>
+@if (Facebooks == null)
+{
+    <text>Loading...</text>
+}
+else if (Facebooks.Count == 0)
+{
+    <text>ไม่พบข้อมูล Facebook Ads</text>
+}
+else
+{
+    <table class="table table-striped border-bottom pb-1 mb-1">
+        <thead class="thead-light">
+            <tr>
+                <th class="col-auto">หมายเลขใบสั่งซื้อ</th>
+                <th class="col-auto">Facebook Page</th>
+                <th class="col-auto">แคมเปญ</th>
+                <th class="col-auto">วันที่เริ่ม</th>
+                <th class="col-auto">วันที่สิ้นสุด</th>
+                <th class="col-auto"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (FacebookAds fb in Facebooks)
+            {
+                <tr>
+                    <td>@fb.getOrderTakraId()</td>
+                    <td>@fb.FacebookPage</td>
+                    <td>@fb.Campaign</td>
+                    <td>@fb.StartDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>@fb.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>
+                        <a class="btn btn-info" href="Facebook/detail/@fb.OrderID"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+<h3>Line Ads Platform</h3>
+@if (LineAdsPlatforms == null)
+{
+    <text>Loading...</text>
+}
+else if (LineAdsPlatforms.Count == 0)
+{
+    <text>ไม่พบข้อมูล Lind Ads Platform</text>
+}
+else
+{
+    <table class="table table-striped border-bottom pb-1 mb-1">
+        <thead class="thead-light">
+            <tr>
+                <th class="col-auto">หมายเลขใบสั่งซื้อ</th>
+                <th class="col-auto">Line OA</th>
+                <th class="col-auto">แคมเปญ</th>
+                <th class="col-auto">วันที่เริ่ม</th>
+                <th class="col-auto">วันที่สิ้นสุด</th>
+                <th class="col-auto"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (LineAdsPlatform line in LineAdsPlatforms)
+            {
+                <tr>
+                    <td>@line.getOrderTakraId()</td>
+                    <td>@line.LineOA</td>
+                    <td>@line.Campaign</td>
+                    <td>@line.StartDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>@line.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>
+                        <a class="btn btn-info" href="Line/detail/@line.OrderID"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+<h3>Google Shop</h3>
+@if (GoogleShops == null)
+{
+    <text>Loading...</text>
+}
+else if (GoogleShops.Count == 0)
+{
+    <text>ไม่พบข้อมูล Google Shop</text>
+}
+else
+{
+    <table class="table table-striped pb-1 mb-1">
+        <thead class="thead-light">
+            <tr>
+                <th class="col-auto">หมายเลขใบสั่งซื้อ</th>
+                <th class="col-auto">เว็บไซต์</th>
+                <th class="col-auto">แคมเปญ</th>
+                <th class="col-auto">วันที่เริ่ม</th>
+                <th class="col-auto">วันที่สิ้นสุด</th>
+                <th class="col-auto"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (GoogleShop google in GoogleShops)
+            {
+                <tr>
+                    <td>@google.getOrderTakraId()</td>
+                    <td>@google.getWebSiteName()</td>
+                    <td>@google.Campaign</td>
+                    <td>@google.StartDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>@google.EndDate.ToString( "MM/dd/yyyy - HH:mm:ss" )</td>
+                    <td>
+                        <a class="btn btn-info" href="Google/detail/@google.OrderID"><span class="oi oi-magnifying-glass">รายละเอียด</span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

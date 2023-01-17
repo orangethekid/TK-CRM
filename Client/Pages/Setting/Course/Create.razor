@@ -1,0 +1,7 @@
+﻿@page "/course/create"
+@using TakraonlineCRM.Client.Pages.Setting.Components
+
+<h3>เพิ่มคอร์สเรียน</h3>
+<div class="container">
+    <FormCourse ButtonText="เพิ่ม" Course="@currentcourse" OnValidSubmit="@CreateCourse" />
+</div>

@@ -1,0 +1,6 @@
+﻿@page "/Domain/create/{orderId:int}"
+@page "/Domain/create/{orderId:int}/{websiteId:int}"
+@using TakraonlineCRM.Client.Pages.Domain.Componentes
+
+<h3>สร้างโดเมน</h3>
+<FormDomain ButtonText="สร้าง" domain="@domain" OnValidSubmit="@CreateDomain" />

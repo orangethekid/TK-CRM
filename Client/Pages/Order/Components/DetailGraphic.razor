@@ -1,0 +1,60 @@
+﻿<h2>รายละเอียด ออเดอร์ : บริการออกแบบ</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8 list-group">
+            <div class="list-group-item">
+                <ul class="text-left m-1">
+                    <li class="m-1"><span> รายละเอียดงาน : @orderGraphic.Purpose </span></li>
+                    <li class="m-1"><span> จุดที่ต้องเน้น : @orderGraphic.FocusDetail </span></li>
+                    <li class="m-1"><span> วันที่ลูกค้ายืนยัน : @orderGraphic.DraftDate </span></li>
+                    <li class="m-1"><span> วันที่ส่งงาน : @orderGraphic.DueDate </span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a class="btn btn-success" href="Graphic/create/@orderGraphic.OrderId"><i class="oi oi-plus"></i> เพิ่มการออกแบบ</a>
+        </div>
+    </div>
+    <br />
+    <div class="row w-100">
+        @if (graphics == null)
+        {
+            <text>Loading...</text>
+        }
+        else if (graphics.Count == 0)
+        {
+            <text>ไม่พบข้อมูลการออกแบบ</text>
+        }
+        else
+        {
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th> วันที่ </th>
+                        <th> Draft </th>
+                        <th> แก้ไขงาน </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Graphic g in graphics)
+                    {
+                        <tr>
+                            <th class="col-auto"> @g.DraftDate.ToString( "MM/dd/yyyy-HH:mm:ss" ) </th>
+                            <th class="col-auto" > <a href="@g.DraftFile" target="_blank" > ไฟล์งาน </a></th>
+                            <th class="col-auto text-right"> @g.FeedBack </th>
+                            <th>
+                                <a class="btn btn-info" href="Graphic/Edit/@g.Id"><span class="oi oi-wrench"> แก้ไข </span></a>
+                                <button class="btn btn-danger" @onclick="@(() => DeleteGraphic(g.Id))"><span class="oi oi-x"> ลบ</span></button>
+                            </th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

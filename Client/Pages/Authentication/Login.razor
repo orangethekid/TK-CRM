@@ -1,0 +1,40 @@
+﻿@page "/login"
+@layout AuthLayout
+
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-3 m-auto">
+            <h1 class="h2 font-weight-normal login-title">
+                ลงชื่อเข้าสู่ระบบ
+            </h1>
+            <div>
+                <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginRequest">
+                    <DataAnnotationsValidator />
+                    <div class="form-row py-1">
+                        บัญชีผู้ใช้
+                        <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.UserName" autofocus placeholder="Username" />
+                        <ValidationMessage For="@(() => loginRequest.UserName)" />
+                    </div>
+                    <div class="form-row py-1">
+                        รหัสผ่าน
+                        <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginRequest.Password" />
+                        <ValidationMessage For="@(() => loginRequest.Password)" />
+                    </div>
+                    <div class="form-row py-1">
+                        <div class="form-check m-3">
+                            <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@loginRequest.RememberMe" />
+                            <label class="form-check-label" for="inputRememberMe">Remember Me</label>
+                        </div>
+                    </div>
+                    <br />
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">เข้าสู่ระบบ</button>
+                    <label class="text-danger">@error</label>
+                    @*<NavLink href="register">
+                            <h6 class="font-weight-normal text-center">สมัครสมาชิก</h6>
+                        </NavLink>*@
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>

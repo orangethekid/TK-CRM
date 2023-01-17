@@ -1,0 +1,116 @@
+﻿<h2>รายละเอียด ออเดอร์ : เว็บไซต์</h2>
+<div class="container-fluid mb-2">
+    @if (orderWebSite.Website)
+    {
+        <form class="form-row">
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.Website" disabled />
+                <label class="form-check-label"> เปิดใช้งานเว็บไซต์ </label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.Upgrade" disabled />
+                <label class="form-check-label"> อัพเกรดเว็บไซต์ </label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.Plugins" disabled />
+                <label class="form-check-label"> ติดตั้งการตลาดส่วนเสริม </label>
+            </div>
+        </form>
+    }
+    @if (orderWebSite.Domain)
+    {
+        <form class="form-row">
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.Domain" disabled />
+                <label class="form-check-label"> จดโดเมน </label>
+            </div>
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.SSL" disabled />
+                <label class="form-check-label"> ติดตั้ง SSL </label>
+            </div>
+        </form>
+    }
+    @if (orderWebSite.NewDesign)
+    {
+        <form class="form-row">
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.NewDesign" disabled />
+                <label class="form-check-label"> ออกแบบใหม่ </label>
+            </div>
+        </form>
+    }
+    @if (orderWebSite.ProgramEdit)
+    {
+        <form class="form-row">
+            <div class="form-check-inline">
+                <input type="checkbox" class="form-check-input" @bind="orderWebSite.ProgramEdit" disabled />
+                <label class="form-check-label"> แก้ไขโปรแกรม </label>
+            </div>
+        </form>
+    }
+</div>
+<div class="container-fluid border-bottom">
+    @if (orderWebSite.Website)
+    {
+        <div class="row border-bottom pb-2">
+            <div class="col-6 text-left">
+                @if (website.Id == 0)
+                {
+                    <div class="m-1"><span>ไม่พบข้อมูลเว็บไซต์</span></div>
+                }
+                else
+                {
+                    var url = "http://" + website.Url;
+                    <div class="m-1"><span> เว็บไซต์ : </span><a href="@url"> @website.Name </a></div>
+                }
+            </div>
+            <div class="col-6 text-right">
+                @if (website.Id == 0)
+                {
+                    <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                        <a class="btn btn-success" href="Web/Create/@customerId/@orderWebSite.Id"><i class="oi oi-plus"></i> เพิ่มเว็บไซต์</a>
+                    </AuthorizeView>
+                }
+                else
+                {
+                    <a class="btn btn-info" href="Web/Detail/@website.Id"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                    <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                        <a class="btn btn-info" href="Web/edit/@website.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+                    </AuthorizeView>
+                }
+            </div>
+        </div>
+    }
+    <br />
+    @if (orderWebSite.Domain)
+    {
+        <div class="row">
+            <div class="col-6 text-left">
+                @if (domain.Id == 0)
+                {
+                    <div class="m-1"><span>ไม่พบข้อมูลโดเมน</span></div>
+                }
+                else
+                {
+                    <div class="m-1"><span> โดเมน : </span> @domain.Name  </div>
+                }
+            </div>
+            <div class="col-6 text-right">
+                @if (domain.Id == 0)
+                {
+                    <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                        <a class="btn btn-success" href="Domain/Create/@orderWebSite.Id"><i class="oi oi-plus"></i> เพิ่มโดเมน</a>
+                    </AuthorizeView>
+                }
+                else
+                {
+                    <a class="btn btn-info" href="Domain/Detail/@domain.Id"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+                    <AuthorizeView Roles="Admin, SubAdmin, CustomerService">
+                        <a class="btn btn-info" href="Domain/edit/@domain.Id"><span class="oi oi-wrench"> แก้ไข</span></a>
+                    </AuthorizeView>
+                }
+            </div>
+        </div>
+    }
+    <br />
+</div>

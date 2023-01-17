@@ -1,0 +1,174 @@
+﻿<EditForm Model="@customer" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        @if (ButtonText == "บันทึก" && sales != null && currentUser != null && customer != null)
+        {
+<form role="form">
+    <div class="row mb-2">
+        <h5>รายละเอียด</h5>
+    </div>
+    <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">
+            ผู้ดูแล
+        </label>
+        <div class="col-lg-9">
+            <select @bind="customer.SaleId" class="form-control w-50">
+                <option value="@currentUser.Id.ToString()" selected>@currentUser.DisplayName</option>
+                @if (currentUser.Role.ToLower() != "sale")
+                {
+@foreach (var sale in sales)
+{
+<option value="@sale.Id.ToString()">@sale.DisplayName</option>}}
+            </select>
+            <ValidationMessage For="@(() => customer.SaleId)" />
+        </div>
+    </div>
+</form>}
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ข้อมูลลูกค้า</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ชื่อ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.FirstName" class="form-control w-50" />
+                    <ValidationMessage For="@(() => customer.FirstName)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    นามสกุล <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.LastName" class="form-control w-50" />
+                    <ValidationMessage For="@(() => customer.LastName)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ธุรกิจ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.BusinessType" class="form-control w-50" />
+                    <ValidationMessage For="@(() => customer.BusinessType)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> ชื่อบริษัท (ถ้ามี) </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.BusinessName" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> ผู้ประสานงาน (ถ้ามี) </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.BusinessContact" class="form-control w-50" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>รายละเอียด</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> รายละเอียดลูกค้า </label>
+                <div class="col-lg-9">
+                    <textarea @bind="@customer.CustomerDetail" class="form-control w-50" rows="4" placeholder="พูดจาสุภาพ พอมีความรู้เรื่องออนไลน์" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> หมายเหตุ </label>
+                <div class="col-lg-9">
+                    <textarea @bind="@customer.CustomerNote" class="form-control w-50" rows="2" placeholder="สะดวกติดต่อผ่านเบอร์โทร เวลา 08.00-18.00 น. ทุกวัน" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ช่องทางการติดต่อ</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    เบอร์โทรศัพท์ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.Phone" class="form-control w-50" />
+                    <ValidationMessage For="@(() => customer.Phone)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    อีเมล <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.Email" class="form-control w-50" />
+                    <ValidationMessage For="@(() => customer.Email)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> Facebook </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.Facebok" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> Line ID <span class="text-danger">*</span> </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.Line" class="form-control w-50" />
+                    <ValidationMessage For="@(() => customer.Line)" />
+                </div>
+            </div>
+        </form>
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ที่อยู่ส่งใบกำกับภาษี</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> ที่อยู่ </label>
+                <div class="col-lg-9">
+                    <textarea @bind="@customer.Address1" class="form-control w-50" rows="2" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> ที่อยู่ (เพิ่มเติม) </label>
+                <div class="col-lg-9">
+                    <textarea @bind="@customer.Address2" class="form-control w-50" rows="2" placeholder="อาคาร ชั้น , ห้องเลขที่" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> แขวง/ตำบล </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.District" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> เขต/อำเภอ </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.City" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> จังหวัด </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.State" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"> รหัสไปรษณีย์ </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@customer.Zip" class="form-control w-50" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>

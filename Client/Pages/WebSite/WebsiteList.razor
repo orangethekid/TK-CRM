@@ -1,0 +1,42 @@
+﻿@page "/Web"
+
+<h3>รายชื่อเว็บไซต์</h3>
+
+<SearchHelper search="@search" searchOptions="@searchField" OnSearch="@Search" />
+@if (WebSites == null)
+{
+<text>Loading...</text> }
+else if (WebSites.Count == 0)
+{
+<text>ไม่พบข้อมูลเว็บไซต์</text> }
+else
+{
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>เว็บไซต์</th>
+            <th>URL</th>
+            <th>Version</th>
+            <th>ประเภทเว็บไซต์</th>
+            <th>จำนวนสินค้า/SalePage</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (WebSite web in WebSites)
+        {
+<tr>
+    <td>@web.Name</td>
+    <td>@web.Url</td>
+    <td>@web.Version</td>
+    <td>@web.GetWebSiteType()</td>
+    <td>@web.MaximumProduct</td>
+    <td>
+        <a class="btn btn-primary" href="Web/detail/@web.Id"><span class="oi oi-magnifying-glass"> รายละเอียด</span></a>
+        <button class="btn btn-danger" @onclick="@(() => Delete(web.Id))"><span class="oi oi-x"> ลบ</span></button>
+    </td>
+</tr>
+}
+    </tbody>
+</table>}
+<Pagination TotalPagesQuantity="totalPagesQuantity" CurrentPage="currentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>

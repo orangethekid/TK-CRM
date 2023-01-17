@@ -1,0 +1,38 @@
+﻿@page "/course"
+
+<h3>รายชื่อคอร์สเรียน</h3>
+<div class="form-group">
+    <a class="btn btn-success" href="course/create"><i class="oi oi-plus"></i> เพิ่มคอร์สเรียน</a>
+</div>
+<br>
+@if (Courses == null)
+{
+    <text>Loading...</text> }
+else if (Courses.Count == 0)
+{
+    <text>ยังไม่มีคอร์สเรียน</text> }
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ชื่อคอร์สเรียน</th>
+                <th>รายละเอียดคอร์สเรียน</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TakraonlineCRM.Shared.Setting.Course.Course course in Courses)
+            {
+                <tr>
+                    <td>@course.CourseName</td>
+                    <td>@course.CourseDetail</td>
+                    <td>
+                        <a class="btn btn-success" href="course/edit/@course.Id">แก้ไข</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(course.Id))"><span class="oi oi-x"> ลบ</span></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>}
+<Pagination TotalPagesQuantity="totalPagesQuantity" CurrentPage="currentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>

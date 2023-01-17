@@ -1,0 +1,232 @@
+﻿@inject IOrderRepository orders;
+
+<EditForm Model="@website" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="container-fluid">
+        @if (ButtonText == "บันทึก" && website.OrderId == 0)
+        {
+            <form role="form">
+                <div class="row mb-2">
+                    <h5>หมายเลขใบสั่งซื้อ</h5>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">
+                        ใบสั่งซื้อ
+                    </label>
+                    <div class="col-lg-9">
+                        <select @bind="@website.OrderId">
+                            @if (orderslist.Count > 0)
+                            {
+                                foreach (var o in orderslist)
+                                {
+                                    <option value="@o.Id">@o.TakraOrderId</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+        }
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ข้อมูลเว็บไซต์</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ชื่อเว็บไซต์ <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@website.Name" class="form-control w-50" />
+                    <ValidationMessage For="@(() => website.Name)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    Url
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@website.Url" class="form-control w-50" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่สร้าง
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@website.CreateDate" class="form-control w-auto" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    วันที่หมดอายุ
+                </label>
+                <div class="col-lg-9">
+                    <input type="datetime-local" @bind-value="@website.EndDate" class="form-control w-auto" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>รายละเอียดเว็บไซต์</h5>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    version
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@website.Version" class="form-control w-25" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    จำนวน สินค้า/เซลเพจ สูงสูด <span class="text-danger">*</span>
+                </label>
+                <div class="col-lg-9">
+                    <InputNumber @bind-Value="@website.MaximumProduct" class="form-control w-25" />
+                    <ValidationMessage For="@(() => website.MaximumProduct )" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    แพคเกจ
+                </label>
+                <div class="col-lg-9">
+                    <select class="form-control w-auto" @bind="@website.Package">
+                        <option value="3900 Website"> 3900 Website </option>
+                        <option value="4900 Website"> 4900 Website </option>
+                        <option value="8400 Website"> 8400 Website </option>
+                        <option value="9900 Website"> 9900 Website </option>
+                        <option value="2900 Sale Page"> 2900 Sale Page Edition </option>
+                        <option value="4900 Sale Page"> 4900 Sale Page Edition </option>
+                        <option value="6900 Sale Page"> 6900 Sale Page Edition </option>
+                        <option value="12900 Lazada Shopee"> 12900 Lazada Shopee </option>
+                        <option value="12900 Google Shopping"> 12900 Google Shopping </option>
+                        <option value="25000 New Design"> 25000 New Design </option>
+                        <option value="9900 Corporate "> 9900 Corporate </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    รายละเอียดอื่นๆ
+                </label>
+                <div class="col-lg-9">
+                    <InputText @bind-Value="@website.Detail" class="form-control w-25" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">
+                    ติดตั้งรูปแบบร้านค้า
+                </label>
+                <div class="col-lg-9 ">
+                    <div class="input-group-prepend w-25">
+                        <div class="input-group-text">
+                            <InputCheckbox @bind-Value="@website.IsInstallTemplate" />
+                        </div>
+                        <input type="text" class="form-control" @bind-value="@website.TemplateName" disabled="@(website.IsInstallTemplate ? false:true)" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ประเภทเว็บไซต์</h5>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked="@normalWeb">
+                <label class="form-check-label" for="inlineRadio1"> ร้านค้าออนไลน์ </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" @bind-value="@website.IsSalePlage">
+                <label class="form-check-label" for="inlineRadio1"> เซลเพจ </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" @bind-value="@website.IsFree">
+                <label class="form-check-label" for="inlineRadio1"> ร้านค้าฟรี </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" @bind-value="@website.IsCompanyProfile">
+                <label class="form-check-label" for="inlineRadio1"> เว็บไซต์สำหรับองค์กร </label>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>ติดตั้งการตลาดส่วนเสริม</h5>
+            </div>
+            <div class="form-check form-check-inline ml-1">
+                <InputCheckbox @bind-Value="@website.IsFacebookShop" class="form-check-input" />
+                <label class="form-check-label">
+                    Facebook Shop
+                </label>
+            </div>
+            <div class="form-check form-check-inline ml-1">
+                <InputCheckbox @bind-Value="@website.IsGoogleMarket" class="form-check-input" />
+                <label class="form-check-label">
+                    Google shop
+                </label>
+            </div>
+            <div class="form-check form-check-inline ml-1">
+                <InputCheckbox @bind-Value="@website.IsLazada" class="form-check-input" />
+                <label class="form-check-label">
+                    Lazada
+                </label>
+            </div>
+            <div class="form-check form-check-inline ml-1">
+                <InputCheckbox @bind-Value="@website.IsShopee" class="form-check-input" />
+                <label class="form-check-label">
+                    Shopee
+                </label>
+            </div>
+        </form>
+        <br />
+        <form role="form">
+            <div class="row mb-2">
+                <h5>บริการอื่นๆ</h5>
+            </div>
+            <div class="form-check form-check-inline ml-1">
+                <InputCheckbox @bind-Value="@website.IsNewDesign" class="form-check-input" />
+                <label class="form-check-label">
+                    ออกแบบใหม่
+                </label>
+            </div>
+            <div class="form-check form-check-inline ml-1">
+                <InputCheckbox @bind-Value="@website.IsProgramEdit" class="form-check-input" />
+                <label class="form-check-label">
+                    แก้ไขโปรแกรม
+                </label>
+            </div>
+        </form>
+        <br />
+        <div class="d-block text-center">
+            <button type="submit" class="btn btn-success">
+                @ButtonText
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@code
+{
+    [Parameter] public WebSite website { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    public bool normalWeb = true;
+    private IList<Order> orderslist = new List<Order>();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            IList<Order> list = await orders.GetAll();
+            orderslist = list.Where( o => o.OrderType.ToLower() == "website" ).ToList();
+        }
+        catch (Exception error)
+        {
+            Console.WriteLine( error );
+        }
+    }
+}

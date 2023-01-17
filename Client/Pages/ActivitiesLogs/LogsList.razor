@@ -1,0 +1,36 @@
+﻿@page "/Logs"
+
+<h3>ประวัติการใช้งาน</h3>
+<SearchHelper search="@search" searchOptions="@searchField" OnSearch="@Search" />
+@if (logs == null)
+{
+    <text>Loading...</text> }
+else if (logs.Count == 0)
+{
+    <text>ไม่พบข้อมูลประวัติการใช้งาน.</text> }
+else
+{
+
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th class="col-auto">วันที่</th>
+                <th class="col-auto">ผู้ใช้งาน</th>
+                <th class="col-auto">ตำแหน่ง</th>
+                <th class="col-auto"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ActivitiesLog l in logs)
+            {
+                <tr>
+                    <th>@l.TimeStamp.ToString( "MM/dd/yyyy - HH:mm:ss" )</th>
+                    <th>@l.UserDisplayName</th>
+                    <th>@l.UserRole</th>
+                    <th>@l.Actionlog</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<Pagination TotalPagesQuantity="totalPagesQuantity" CurrentPage="currentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>

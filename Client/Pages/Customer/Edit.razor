@@ -1,0 +1,5 @@
+﻿@page "/Customer/edit/{customerId:int}"
+@using TakraonlineCRM.Client.Pages.Customer.Components; 
+
+<h3>แก้ไขรายละเอียดลูกค้า</h3>
+<FormCustomer ButtonText="บันทึก" customer="@customer" OnValidSubmit="@EditCustomer" />

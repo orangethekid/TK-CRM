@@ -1,0 +1,5 @@
+﻿@page "/Facebook/create/{orderID:int}"
+@using TakraonlineCRM.Client.Pages.Marketing.Component;
+
+<h3>เพิ่มแคมเปญ Facebook Ads</h3>
+<FormFacebook ButtonText="สร้าง" facebook="@facebook" OnValidSubmit="@CreateFacebookAds" />

@@ -1,0 +1,5 @@
+﻿@page "/Order/edit/{orderId:int}"
+@using TakraonlineCRM.Client.Pages.Order.Components
+
+<h3>แก้ไขใบสั่งซื้อ</h3>
+<FormOrder ButtonText="แก้ไข" order="@order" OnValidSubmit="@EditOrder" />
